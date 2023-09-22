@@ -14,7 +14,11 @@ import { ArrowRight, Send } from "lucide-react"
 import Link from "next/link"
 
 import { motion } from "framer-motion";
-import { buttonHoverVariant, fadeInVariant, slideInVariant } from "@/utils/motion"
+import { fadeInVariant, slideInVariant } from "@/utils/motion"
+import axios from "axios"
+import { scrapeUrl } from "@/utils/netwrok"
+import { useEffect, useState } from "react"
+import { PacmanLoader } from "react-spinners";
 
 
 const sections = [
@@ -40,7 +44,65 @@ const sections = [
     },
 ];
 
+type AnalysisProps = {
+    title: string
+    content: string
+}
+
+export const transformApiResult = (apiResult: any) => {
+    if (!apiResult || typeof apiResult !== 'object') {
+        return [];
+    }
+
+    const transformedResult: AnalysisProps[] = [];
+
+    for (const key in apiResult) {
+        if (apiResult.hasOwnProperty(key)) {
+            const title = key.replace(/^\d+\.\s*/, '');
+            const content = apiResult[key].replace(/^\d+\.\s*/, '')
+                .replace(/^\w*\.\s*/, '');
+
+            transformedResult.push({ title, content });
+        }
+    }
+
+    return transformedResult;
+};
+
+
 const AnalysisPage = () => {
+    const [analysis, setAnalysis] = useState<AnalysisProps[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    const task_id = localStorage.getItem("task_id");
+
+    const fetchAnalysisData = async () => {
+        try {
+            const response = await axios.get(`${scrapeUrl}/${task_id}`);
+            const data = response?.data;
+            console.log(data)
+            if (data.status === 'completed') {
+                const format_data = data.result.ai_analysis
+                console.log(format_data)
+                const desiredOutput = transformApiResult(format_data);
+                console.log(desiredOutput);
+                setAnalysis(desiredOutput);
+                setLoading(false);
+            } else if (data.status === 'pending') {
+                console.log('Loading analysis...');
+                // setError to be displayed on frontend
+                setTimeout(fetchAnalysisData, 1000);
+            }
+        } catch (error) {
+            console.error('Error fetching analysis data:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchAnalysisData();
+    }, []);
+
+        
 
     return (
         <>
@@ -67,32 +129,47 @@ const AnalysisPage = () => {
                         </motion.p>
                     </CardHeader>
                     <CardContent>
-                        {sections.map((section, index) => (
-                            <div key={index}>
-                                <motion.h3
-                                    variants={fadeInVariant}
-                                    initial="hidden"
-                                    animate="visible"
-                                    transition={{ duration: 0.5, delay: 0.6 + index * 0.2 }}
-                                    className="text-2xl font-semibold"
-                                >
-                                    {section.title}
-                                </motion.h3>
-                                <motion.p
-                                    variants={fadeInVariant}
-                                    initial="hidden"
-                                    animate="visible"
-                                    transition={{ duration: 0.5, delay: 0.8 + index * 0.2 }}
-                                    className="text-gray-600"
-                                >
-                                    {section.content}
-                                </motion.p>
-                            </div>
-                        ))}
+                        {loading ? (
+                            <div className="flex justify-center gap-10 align-center items-center">
+                            <PacmanLoader 
+                            color="#404c4a"
+                            loading
+                            size={50}
+                            className=""
+                          /> <p className="text-gray-600">Spilling the Tea</p>
+                          </div>
+                        ) : (
+                            <>
+                                {analysis.map((section, index) => (
+                                    <div key={index}>
+                                        <motion.h3
+                                            variants={fadeInVariant}
+                                            initial="hidden"
+                                            animate="visible"
+                                            transition={{ duration: 0.5, delay: 0.6 + index * 0.2 }}
+                                            className="text-2xl font-semibold"
+                                        >
+                                            {section.title}
+                                        </motion.h3>
+                                        <motion.p
+                                            variants={fadeInVariant}
+                                            initial="hidden"
+                                            animate="visible"
+                                            transition={{ duration: 0.5, delay: 0.8 + index * 0.2 }}
+                                            className="text-gray-600"
+                                        >
+                                            {section.content}
+                                        </motion.p>
+                                    </div>
+                                ))}
+                            </>
+                        )}
+
+
                     </CardContent>
                 </Card>
             </div>
-            <div className="w-100 mt-10 flex align-center justify-center gap-10">
+            {/* <div className="w-100 mt-10 flex align-center justify-center gap-10">
                 <motion.h1
                     variants={fadeInVariant}
                     initial="hidden"
@@ -121,7 +198,7 @@ const AnalysisPage = () => {
                         <Send className="h-4 w-4 opacity-2" />
                     </Button>
                 </motion.div>
-            </div>
+            </div> */}
             <div className="absolute right-0 bottom-0 mr-10 p-3">
                 <Link href="/stratergy">
                     Next
