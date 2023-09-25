@@ -13,6 +13,8 @@ import { buttonHoverVariant, fadeInVariant, rotateHoverVariant, slideInVariant }
 import { scrapeUrl } from '@/utils/netwrok';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import { proxy } from 'valtio'
+import { ClipLoader } from 'react-spinners';
 type FormData = {
     website_url: string;
     linkedin_url: string;
@@ -20,6 +22,9 @@ type FormData = {
 
 type Props = {}
 
+export const state = proxy({
+    task_id: ""
+})
 
 const HomePage = ({ }: Props) => {
     const [formData, setFormData] = useState<FormData>({
@@ -28,7 +33,7 @@ const HomePage = ({ }: Props) => {
     });
 
     const router = useRouter()
-    const [companyData, setCompanyData] = useState<SelCompProps[]>([]);
+    const [loading, setLoading] = useState(false);
 
     const handleFormChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
@@ -38,41 +43,34 @@ const HomePage = ({ }: Props) => {
     const handleFormSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
         try {
+            setLoading(true);
             const res = await axios.post(scrapeUrl, formData);
-            //loading then push to analysis page
-            router.push("/analysis")
-            console.log(res)
-            
+            const taskID = res.data;
+            state.task_id = taskID;
+            localStorage.setItem("task_id", state.task_id);
+            router.push("/analysis");
+            console.log(res);
         } catch (error) {
             console.error(error);
+        } finally {
+            setLoading(false);
         }
     };
 
-    // we dont neeed to get the links no more
-    // const SendSelectedItems = async (e: React.FormEvent) => {
-    //     e.preventDefault()
-    //     const selectedItems = companyData.filter((company) => company.options);
-    //     // Then send selectedItems to API
-    //     try {
-    //         await axios.post(scrapeUrl, selectedItems);
-
-    //     } catch (error) {
-    //         console.log(error)
-    //     }
-    // };
-
     return (
-        <div className="w-full px-10 flex items-center justify-center mt-10"
-
-        >
-            <Card className="flex relative flex-row w-11/12 md:w-3/4 max-w-4xl p-8 h-full shadow-md">
+        <div className="w-full px-4 md:px-10 flex flex-col items-center justify-center mt-10">
+            <Card className="w-full relative md:w-11/12 lg:w-3/4 max-w-4xl p-8 h-full shadow-md flex flex-col md:flex-row">
                 {/* Left side with form */}
-                <motion.div className="w-full md:w-1/2"
+                <motion.div
+                    className="w-full md:w-1/2"
                     variants={fadeInVariant}
                     initial="hidden"
                     animate="visible"
-                    transition={{ duration: 0.5, delay: 0.4 }}>
-                    <motion.form onSubmit={handleFormSubmit} className="w-full"
+                    transition={{ duration: 0.5, delay: 0.4 }}
+                >
+                    <motion.form
+                        onSubmit={handleFormSubmit}
+                        className="w-full"
                         variants={slideInVariant}
                         initial="hidden"
                         animate="visible"
@@ -84,9 +82,9 @@ const HomePage = ({ }: Props) => {
                             </label>
                             <div className="">
                                 <Input
-                                    type="url"
+                                    type="text"
                                     name="linkedin_url"
-                                    placeholder="Include https:// or http://"
+                                    placeholder="Enter linkden Url"
                                     value={formData.linkedin_url}
                                     onChange={handleFormChange}
                                     className="w-full py-2 px-4 border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-500 transition duration-300"
@@ -99,8 +97,8 @@ const HomePage = ({ }: Props) => {
                             </label>
                             <div className="">
                                 <Input
-                                    type="url"
-                                    placeholder="Include https:// or http://"
+                                    type="text"
+                                    placeholder="Enter website url"
                                     name="website_url"
                                     value={formData.website_url}
                                     onChange={handleFormChange}
@@ -108,18 +106,27 @@ const HomePage = ({ }: Props) => {
                                 />
                             </div>
                         </div>
-                        <Button
-                            type="submit"
-                            className="w-full md:w-40 flex items-center justify-center px-4 py-2 bg-slate-900 text-white rounded hover:bg-blue-600 transition duration-300 self-center"
-                        >
-                            <span className="mr-2">Submit</span>
-                            <Send className="h-4 w-4 opacity-75" />
-                        </Button>
+                        {
+                            loading ? (  // Render the ClipLoader when loading
+                                <div className="flex items-center justify-center">
+                                    <ClipLoader size={35} color={"#123abc"} loading={loading} />
+                                </div>
+                            ) : (
+                                // Render the submit button when not loading
+                                <Button
+                                    type="submit"
+                                    className="w-full md:w-40 flex items-center justify-center px-4 py-2 bg-slate-900 text-white rounded hover:bg-blue-600 transition duration-300 self-center"
+                                >
+                                    <span className="mr-2">Submit</span>
+                                    <Send className="h-4 w-4 opacity-75" />
+                                </Button>
+                            )}
                     </motion.form>
                 </motion.div>
 
+
                 {/* Right side with illustration */}
-                <div className="md:block flex flex-col jusify-between md:w-1/2 ml-10">
+                <div className="hidden md:block md:w-1/2 ml-10">
                     {/* <Illustration /> Use your illustration component here */}
                     <motion.div
                         variants={rotateHoverVariant}
@@ -138,8 +145,6 @@ const HomePage = ({ }: Props) => {
                         </Link>
                     </motion.div>
                 </div>
-
-
             </Card>
         </div>
 
