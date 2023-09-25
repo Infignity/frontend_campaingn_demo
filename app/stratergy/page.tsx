@@ -22,22 +22,22 @@ const dummyData = [
             name: "Tech Corp",
         },
     },
-    {
-        id: 12,
-        name: "Jane Smith",
-        job_title: "Marketing Manager",
-        company: {
-            name: "Marketing Solutions Inc.",
-        },
-    },
-    {
-        id: 18,
-        name: "Bob Johnson",
-        job_title: "Sales Representative",
-        company: {
-            name: "SalesTech LLC",
-        },
-    },
+    // {
+    //     id: 12,
+    //     name: "Jane Smith",
+    //     job_title: "Marketing Manager",
+    //     company: {
+    //         name: "Marketing Solutions Inc.",
+    //     },
+    // },
+    // {
+    //     id: 18,
+    //     name: "Bob Johnson",
+    //     job_title: "Sales Representative",
+    //     company: {
+    //         name: "SalesTech LLC",
+    //     },
+    // },
 ];
 
 const TestDummyDataComponent = () => {
@@ -66,14 +66,9 @@ const TestDummyDataComponent = () => {
                 </CardHeader>
                 <CardContent>
 
-                    {/* Render the DummyDataComponent with the test data */}
-                    {dummyData.map((item, index) => (
-                        <div key={item.id}>
 
-                            <Stratergy id={item.id} name={item.name} job_title={item.job_title} company={item.company} />
-                        </div>
+                    <Stratergy />
 
-                    ))}
                 </CardContent>
 
                 <CardFooter className=" items-center justify-center">
