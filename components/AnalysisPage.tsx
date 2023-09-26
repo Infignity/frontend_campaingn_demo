@@ -12,7 +12,6 @@ import { useRouter } from "next/navigation";
 import { subscribe } from "valtio";
 import { analysisStore } from "@/lib/state";
 import { fadeInVariant } from "@/utils/motion";
-import Link from "next/link";
 import { Card, CardContent, CardHeader } from "./ui/card";
 import { toast } from "react-toastify";
 

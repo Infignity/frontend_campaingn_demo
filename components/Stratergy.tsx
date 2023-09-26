@@ -34,7 +34,7 @@ const DummyDataComponent = () => {
     const handleCardClick = (selectedDetail: DetailsProp) => {
         // Update the selectedDetail in analysisStore
         analysisStore.selectedDetail = selectedDetail;
-        console.log( analysisStore.selectedDetail)
+        console.log(analysisStore.selectedDetail)
     };
 
     const handleGenerateEmail = async (e: React.MouseEvent) => {
@@ -48,7 +48,7 @@ const DummyDataComponent = () => {
                     "_id": analysisStore.selectedDetail._id,
                     "task_id": analysisStore.task_id
                 });
-               
+
                 const generatedEmail = resp.data;
                 analysisStore.generatedEmails.push(generatedEmail);
                 analysisStore.currentIndex = analysisStore.generatedEmails.length - 1;
@@ -97,43 +97,49 @@ const DummyDataComponent = () => {
 
                 <div className="w-full grid gap-4 cursor-pointer">
                     {snapshot.details.map((detail, index) => (
-                        <motion.button
-                            key={detail._id}
-                            variants={fadeInVariant}
-                            initial="hidden"
-                            animate="visible"
-                            transition={{ duration: 0.5, delay: 0.4 }}
-                            className="min-w-100 bg-white p-4 border rounded hover:bg-slate-500 active:bg-slate-400 focus:bg-slate-600"
-                            onClick={() => handleCardClick(detail)}
-                        >
-                            <div className="w-full items-center">
-                                {/* Add avatar icon here */}
-                                <div className="w-fit h-fit p-2 bg-gray-200 rounded-full flex items-center justify-center">
-                                    <span className="text-gray-600 text-xl">
-                                        {/* You can add an avatar icon or initials */}
-                                        <User2 />
-                                    </span>
+                        <>
+                            <motion.button
+                                key={detail._id}
+                                variants={fadeInVariant}
+                                initial="hidden"
+                                animate="visible"
+                                transition={{ duration: 0.5, delay: 0.4 }}
+                                className="min-w-100 bg-white p-4 border rounded hover:bg-slate-500 active:bg-slate-400 focus:bg-slate-600"
+                                onClick={() => handleCardClick(detail)}
+                            >
+                                <div className="w-full items-center">
+                                    {/* Add avatar icon here */}
+                                    <div className="w-fit h-fit p-2 bg-gray-200 rounded-full flex items-center justify-center">
+                                        <span className="text-gray-600 text-xl">
+                                            {/* You can add an avatar icon or initials */}
+                                            <User2 />
+                                        </span>
+                                    </div>
+                                    <div className="ml-4">
+                                        <p className="text-xl font-semibold">{detail._source.full_name}</p>
+                                        <p>{`${detail._source.job_title} - ${detail._source.job_title_role} at ${detail._source.job_company_name}`}</p>
+                                    </div>
                                 </div>
-                                <div className="ml-4">
-                                    <p className="text-xl font-semibold">{detail._source.full_name}</p>
-                                    <p>{`${detail._source.job_title} - ${detail._source.job_title_role} at ${detail._source.job_company_name}`}</p>
-                                </div>
-                            </div>
-                        </motion.button>
+
+                                <Button
+                                    key={detail._id}
+                                    onClick={handleGenerateEmail}
+                                    className="w-full md:w-40 flex items-center justify-center px-4 py-2 bg-slate-900 text-white rounded-sm hover:bg-slate-700 transition duration-300"
+                                >
+                                    {snapshot.emailLoading ? (
+                                        <ClipLoader size={35} color={"#fff"} loading={snapshot.emailLoading} />
+                                    ) : (
+                                        "Generate Email"
+                                    )}
+                                </Button>
+                            </motion.button>
+
+
+                        </>
                     ))}
                 </div>
 
 
-                <Button
-                    onClick={handleGenerateEmail}
-                    className="w-full md:w-40 flex items-center justify-center px-4 py-2 bg-slate-900 text-white rounded-sm hover:bg-slate-700 transition duration-300"
-                >
-                    {snapshot.emailLoading ? (
-                        <ClipLoader size={35} color={"#fff"} loading={snapshot.emailLoading} />
-                    ) : (
-                        "Generate Email"
-                    )}
-                </Button>
 
                 {snapshot.generatedEmails.length > 0 && (
                     <div>
