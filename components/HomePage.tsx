@@ -115,13 +115,16 @@ const HomePage = ({ }: Props) => {
                                 // Render the submit button when not loading
                                 <Button
                                     type="submit"
-                                    className="w-full md:w-40 flex items-center justify-center px-4 py-2 bg-slate-900 text-white rounded hover:bg-blue-600 transition duration-300 self-center"
+                                    className="w-full md:w-40 flex items-center justify-center px-4 py-2 bg-slate-800 text-white rounded hover:bg-slate-900  transition duration-300 self-center"
                                 >
                                     <span className="mr-2">Submit</span>
                                     <Send className="h-4 w-4 opacity-75" />
                                 </Button>
                             )}
                     </motion.form>
+                    {state.task_id && (<div className="w-60 h-8 bg-slate-300 rounded-md p-2 text-white">
+                        <span className="text-lg font-semibold">{state.task_id}</span>
+                    </div>)}
                 </motion.div>
 
 
