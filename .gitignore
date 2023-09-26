@@ -4,7 +4,9 @@
 /node_modules
 /.pnp
 .pnp.js
-
+yarn.lock
+Home.tsx
+.vscode/
 # testing
 /coverage
 
