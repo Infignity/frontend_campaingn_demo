@@ -9,8 +9,10 @@ import axios from "axios";
 import { generate } from "@/utils/netwrok";
 import { toast } from "react-toastify";
 import { subscribe } from "valtio";
-import { analysisStore } from '@/lib/state'
+import { DetailsProp, analysisStore } from '@/lib/state'
 import { buttonVariants, fadeInVariant, rotateHoverVariant } from "@/utils/motion";
+import { User2 } from "lucide-react";
+import { Card } from "./ui/card";
 
 // Subscribe to state changes and save to localStorage
 subscribe(analysisStore, () => {
@@ -29,6 +31,12 @@ const DummyDataComponent = () => {
         }
     }, []);
 
+    const handleCardClick = (selectedDetail: DetailsProp) => {
+        // Update the selectedDetail in analysisStore
+        analysisStore.selectedDetail = selectedDetail;
+        console.log( analysisStore.selectedDetail)
+    };
+
     const handleGenerateEmail = async (e: React.MouseEvent) => {
         e.preventDefault();
         analysisStore.emailLoading = true;
@@ -37,11 +45,10 @@ const DummyDataComponent = () => {
             try {
                 const resp = await axios.post(generate, {
                     // Send the selected detail
-                    job_title: analysisStore.selectedDetail.job_title,
-                    job_title_role: analysisStore.selectedDetail.job_title_role,
-                    job_company_name: analysisStore.selectedDetail.job_company_name,
+                    "_id": analysisStore.selectedDetail._id,
+                    "task_id": analysisStore.task_id
                 });
-
+               
                 const generatedEmail = resp.data;
                 analysisStore.generatedEmails.push(generatedEmail);
                 analysisStore.currentIndex = analysisStore.generatedEmails.length - 1;
@@ -56,6 +63,7 @@ const DummyDataComponent = () => {
             console.error("No detail selected");
         }
     };
+
     const prevEmail = () => {
         if (snapshot.currentIndex > 0) {
             analysisStore.currentIndex = snapshot.currentIndex - 1;
@@ -68,42 +76,51 @@ const DummyDataComponent = () => {
         }
     };
 
-
-
     return (
-        <div className="w-full px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-center mt-10">
-            <motion.div
+        <motion.div
+            variants={fadeInVariant}
+            initial="hidden"
+            animate="visible"
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className="w-full px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-center mt-10">
+            <Card
                 className="flex relative flex-col w-full gap-4 md:w-3/4 max-w-4xl p-8 h-auto md:h-100 shadow-md"
-                variants={fadeInVariant}
-                initial="hidden"
-                animate="visible"
-                transition={{ duration: 0.5, delay: 0.4 }}
+
             >
                 {/* Content */}
                 <div className="mb-6">
                     <label htmlFor="jobDetails" className="text-xl font-bold mb-2 text-slate-800">
                         Select Data Points:
                     </label>
-                    <motion.select
-                        id="jobDetails"
-                        name="jobDetails"
-                        value={snapshot.selectedDetail ? JSON.stringify(snapshot.selectedDetail) : ''}
-                        onChange={(e) => {
-                            const selectedDetail = JSON.parse(e.target.value);
-                            analysisStore.selectedDetail = selectedDetail;
-                        }}
-                        initial={{ opacity: 0, y: 10 }} // Initial animation state
-                        animate={{ opacity: 1, y: 0 }} // Animation to play on mount
-                        transition={{ duration: 0.5, delay: 0.2 }} // Animation duration and delay
-                        className="w-full py-2 px-4 mt-2 border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-500 transition duration-300"
-                    >
-                        <option value="">Select a job detail</option>
-                        {snapshot.details.map((detail, index) => (
-                            <option key={index} value={JSON.stringify(detail)}>
-                                {detail.job_title} - {detail.job_title_role} at {detail.job_company_name}
-                            </option>
-                        ))}
-                    </motion.select>
+                </div>
+
+
+                <div className="w-full grid gap-4 cursor-pointer">
+                    {snapshot.details.map((detail, index) => (
+                        <motion.button
+                            key={detail._id}
+                            variants={fadeInVariant}
+                            initial="hidden"
+                            animate="visible"
+                            transition={{ duration: 0.5, delay: 0.4 }}
+                            className="min-w-100 bg-white p-4 border rounded hover:bg-slate-500 active:bg-slate-400 focus:bg-slate-600"
+                            onClick={() => handleCardClick(detail)}
+                        >
+                            <div className="w-full items-center">
+                                {/* Add avatar icon here */}
+                                <div className="w-fit h-fit p-2 bg-gray-200 rounded-full flex items-center justify-center">
+                                    <span className="text-gray-600 text-xl">
+                                        {/* You can add an avatar icon or initials */}
+                                        <User2 />
+                                    </span>
+                                </div>
+                                <div className="ml-4">
+                                    <p className="text-xl font-semibold">{detail._source.full_name}</p>
+                                    <p>{`${detail._source.job_title} - ${detail._source.job_title_role} at ${detail._source.job_company_name}`}</p>
+                                </div>
+                            </div>
+                        </motion.button>
+                    ))}
                 </div>
 
 
@@ -149,9 +166,11 @@ const DummyDataComponent = () => {
                                 >
                                     &lt;
                                 </motion.button>
-                                {snapshot.currentIndex > 0 && (<p>
-                                    {snapshot.currentIndex}/{snapshot.generatedEmails.length - 1}
-                                </p>)}
+                                {snapshot.currentIndex > 0 && (
+                                    <p>
+                                        {snapshot.currentIndex}/{snapshot.generatedEmails.length - 1}
+                                    </p>
+                                )}
                                 <motion.button
                                     onClick={nextEmail}
                                     className="text-blue-500 hover:text-blue-600 transition duration-300 cursor-pointer rounded-full bg-slate-300 p-2"
@@ -165,7 +184,7 @@ const DummyDataComponent = () => {
                         </div>
                     </div>
                 )}
-            </motion.div>
+            </Card>
 
             {/* Remove illustration on small devices */}
             <div className="hidden md:block md:w-1/2 ml-10">
@@ -178,8 +197,35 @@ const DummyDataComponent = () => {
                     <Image src={illustrate1} alt="Illustration" />
                 </motion.div>
             </div>
-        </div>
+        </motion.div>
     );
 };
 
 export default DummyDataComponent;
+
+
+{/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+{snapshot.details.map((detail, index) => (
+    <motion.div
+        key={index}
+        variants={fadeInVariant}
+        initial="hidden"
+        animate="visible"
+        transition={{ duration: 0.5, delay: 0.4 }}
+        className="bg-white p-4 border rounded"
+    >
+        <div className="flex items-center">
+            {/* Add avatar icon here */}
+// <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center">
+// <span className="text-gray-600 text-xl">
+{/* You can add an avatar icon or initials */ }
+// </span>
+// </div>
+// <div className="ml-4">
+// <p className="text-xl font-semibold">{detail.full_name}</p>
+// <p>{`${detail.job_title} - ${detail.job_title_role} at ${detail.job_company_name}`}</p>
+// </div>
+// </div>
+// </motion.div>
+// ))}
+// </div> */}

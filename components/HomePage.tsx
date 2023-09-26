@@ -122,6 +122,9 @@ const HomePage = ({ }: Props) => {
                                 </Button>
                             )}
                     </motion.form>
+                    {state.task_id && (<div className="w-60 h-8 bg-slate-300 rounded-md p-2 text-white">
+                        <span className="text-lg font-semibold">{state.task_id}</span>
+                    </div>)}
                 </motion.div>
 
 

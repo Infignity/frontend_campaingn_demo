@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useSnapshot } from "valtio";
 import { motion } from "framer-motion";
 import { PacmanLoader } from "react-spinners";
@@ -21,30 +21,6 @@ export type AnalysisProps = {
     content: string;
 };
 
-
-// export const transformApiResult = (apiResult: any) => {
-//     if (!apiResult || typeof apiResult !== "object") {
-//         return [];
-//     }
-
-//     const transformedResult: AnalysisProps[] = [];
-
-//     for (const key in apiResult) {
-//         if (apiResult.hasOwnProperty(key)) {
-//             const title = key.replace(/^\d+\.\s*/, "");
-//             const content = apiResult[key]
-//                 .replace(/^\d+\.\s*/, "")
-//                 .replace(/^\w*\.\s*/, "");
-
-//             transformedResult.push({ title, content });
-//         }
-//     }
-
-//     return transformedResult;
-// };
-
-
-// Subscribe to state changes and save to localStorage
 subscribe(analysisStore, () => {
     localStorage.setItem("appState", JSON.stringify(analysisStore));
 });
@@ -53,18 +29,9 @@ const AnalysisPage = () => {
     const router = useRouter();
     const snapshot = useSnapshot(analysisStore);
 
-    useEffect(() => {
-        const storedOutput = localStorage.getItem("format_data");
-        if (storedOutput) {
-            const parsedOutput = JSON.parse(storedOutput);
-            analysisStore.analysis = parsedOutput;
-            analysisStore.loading = false;
-        } else {
-            fetchAnalysisData();
-        }
-    }, []);
-
-    const fetchAnalysisData = async () => {
+    //This ensures that the function reference remains stable between renders unless its dependencies change
+    // Define fetchAnalysisData using useCallback
+    const fetchAnalysisData = useCallback(async () => {
         const task_id = localStorage.getItem("task_id");
 
         try {
@@ -75,19 +42,22 @@ const AnalysisPage = () => {
                 const format_data = data.result.ai_analysis;
                 const users = data.result.matched_users;
 
+                // const details = users.map((data: any) => {
+                //     return data["_source"]
+                // });
+
                 const details = users.map((data: any) => {
-                    return data.data;
+                    return data
                 });
 
                 console.log(details);
+
                 analysisStore.details = details;
-                localStorage.setItem("details", JSON.stringify(details));
 
                 // Update Valtio analysisStore
                 analysisStore.analysis = format_data;
                 analysisStore.loading = false;
 
-                localStorage.setItem("format_data", JSON.stringify(format_data));
             } else if (data.status === "pending") {
                 console.log("Loading analysis...");
                 toast.success("Loading Analysis");
@@ -100,10 +70,30 @@ const AnalysisPage = () => {
         if (!task_id) {
             router.push("/");
         }
-    };
-    // Handler for regenerating the analysis
+    }, [router]);
+
+    useEffect(() => {
+        const storedState = localStorage.getItem("appState");
+        if (storedState) {
+            const parsedState = JSON.parse(storedState);
+            Object.assign(analysisStore, parsedState);
+        }
+
+        const task_id: any = localStorage.getItem("task_id");
+        if (task_id !== snapshot.task_id) {
+            snapshot.loading
+            localStorage.removeItem("appState");
+            fetchAnalysisData();
+        }
+        analysisStore.task_id = task_id
+
+        // No specific cleanup needed, so return an empty function
+        return () => { };
+    }, [snapshot.task_id, fetchAnalysisData, snapshot.loading]);
+
     const handleRegenerate = () => {
         router.push("/stratergy")
+        snapshot.details
     };
 
 
@@ -174,31 +164,9 @@ const AnalysisPage = () => {
                     </CardContent>
                 </Card>
             </div>
-            {/* <div className="absolute right-0 bottom-0 mr-10 md:mt-50 p-3">
-                <Link href="/stratergy">
-                    Next
-                    <ArrowRight className="text-blue-500 hover:text-blue-600 transition duration-300 cursor-pointer rounded-full bg-slate-300 p-2" />
-                </Link>
-            </div> */}
+
             <div className="w-100 mt-10 flex align-center justify-center gap-10">
-                {/* <motion.h1
-          variants={fadeInVariant}
-          initial="hidden"
-          animate="visible"
-          transition={{ duration: 0.5 }}
-          className="text-xl font-bold"
-        >
-          Update GPT Prompt
-        </motion.h1>
-        <motion.form
-          variants={slideInVariant}
-          initial="hidden"
-          animate="visible"
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="w-2/5"
-        >
-          <Input placeholder="Enter reform prompt" />
-        </motion.form> */}
+
                 <motion.div
                     variants={fadeInVariant}
                     initial="hidden"

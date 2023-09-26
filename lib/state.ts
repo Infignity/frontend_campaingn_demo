@@ -24,13 +24,19 @@ export const store:any = proxy({
 });
 
 // AnalysisStoreProps.ts
+
 export type DetailsProp = {
-  job_title: string;
-  job_title_role: string;
-  job_company_name: string;
+  _id: number | string | any;
+  _source: {
+    full_name: string;
+    job_title: string;
+    job_title_role: string;
+    job_company_name: string;
+  }
 };
 
 export type AnalysisStoreProps = {
+  task_id: string;
   analysis: [];
   details: DetailsProp[];
   loading: boolean;
@@ -42,10 +48,11 @@ export type AnalysisStoreProps = {
 };
 
 export const analysisStore: AnalysisStoreProps = proxy({
+  task_id: "",
   analysis: [],
   loading: true,
   details: [],
-  selectedDetail: null, // Add a property to store the selected detail
+  selectedDetail: null,
   generatedEmails: [] as string[],
   currentIndex: 0,
   detailloading: false,

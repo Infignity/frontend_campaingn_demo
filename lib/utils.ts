@@ -29,3 +29,42 @@ export function cn(...inputs: ClassValue[]) {
 //           "Homeowners: Individuals and families looking to furnish their homes with stylish and functional furniture. Interior Designers: Professionals in need of high-quality furniture to enhance their interior design projects.  Clients: Businesses, offices, and hospitality industry clients seeking durable and aesthetically pleasing furniture for their spaces. Eco-Conscious Consumers: Buyers who prioritize sustainable and environmentally friendly furniture options.",
 //   },
 // ];
+
+// const dummyData = [
+//   {
+//       full_name: "John Doe",
+//       job_title: "Software Engineer",
+//       job_title_role: "Frontend Developer",
+//       job_company_name: "Tech Co.",
+//   },
+//   {
+//       full_name: "Jane Smith",
+//       job_title: "Data Scientist",
+//       job_title_role: "Machine Learning Engineer",
+//       job_company_name: "Data Corp.",
+//   },
+//   {
+//       full_name: "Bob Johnson",
+//       job_title: "Product Manager",
+//       job_title_role: "Product Owner",
+//       job_company_name: "Product Inc.",
+//   },
+//   {
+//       full_name: "John Doe",
+//       job_title: "Software Engineer",
+//       job_title_role: "Frontend Developer",
+//       job_company_name: "Tech Co.",
+//   },
+//   {
+//       full_name: "Jane Smith",
+//       job_title: "Data Scientist",
+//       job_title_role: "Machine Learning Engineer",
+//       job_company_name: "Data Corp.",
+//   },
+//   {
+//       full_name: "Bob Johnson",
+//       job_title: "Product Manager",
+//       job_title_role: "Product Owner",
+//       job_company_name: "Product Inc.",
+//   },
+// ];
