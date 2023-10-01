@@ -63,6 +63,7 @@ const HomeView = (props: Props) => {
       <div className='flex w-full items-center'>
         <div className='flex w-full flex-col m-[15%] '>
           <div className="flex flex-col justify-center items-left text-left">
+
             <h1 className="text-gray-900 font-semibold text-5xl font-inter">Let&apos;s Stay Connected</h1>
             <h3 className="text-gray-900 mt-4 mb-4 text-xl font-inter">
               To help us better connect and understand your profile,<br />
@@ -87,7 +88,7 @@ const HomeView = (props: Props) => {
               {
                 loading ? (  // Render the ClipLoader when loading
                   <div className="flex items-center justify-center">
-                    <ClipLoader size={35} color={"black"} loading={loading} />
+                    <ClipLoader size={35} color={"#5B0AE1"} loading={loading} />
                   </div>
                 ) : (
                   <Button type="submit" className="w-40 bg-[#5B0AE1] flex items-center justify-around font-light  rounded-md p-2 ml-2  hover:bg-[#F2EFF8]"><Wand2 className="w-4 h-4 text-gray-900 hover:text-gray-900" /><p className="font-inter text-base p-2 text-gray-900 font-light">Generate</p></Button>
