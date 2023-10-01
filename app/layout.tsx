@@ -1,8 +1,12 @@
+import SideBar from '@/components/SideBar';
 import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Header from '@/components/Header';
+import { Separator } from '@/components/ui/separator';
+
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -30,7 +34,18 @@ export default function RootLayout({
           draggable
           pauseOnHover
         />
-        {children}</body>
+        <div className="flex h-screen overflow-hidden bg-[#FFF]">
+          <SideBar />
+          <div className="flex-grow flex flex-col overflow-hidden">
+            <Header />
+            <Separator />
+            
+            <div className="flex-grow overflow-auto ml-20"> 
+              {children}
+            </div>
+          </div>
+        </div>
+      </body>
     </html>
   )
 }

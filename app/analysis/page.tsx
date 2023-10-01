@@ -1,14 +1,15 @@
-import { Card } from '@/components/ui/card'
+
 import React from 'react'
-import AnalysisPage from '@/components/AnalysisPage'
+
+import Analytics from '@/components/AnalyticPage'
 
 type Props = {}
 
 const Analysis = (props: Props) => {
   return (
-    <div className="">
-        <AnalysisPage />
-    </div>
+    <>
+      <Analytics />
+    </>
   )
 }
 

@@ -10,6 +10,8 @@ Home.tsx
 # testing
 /coverage
 
+/unused
+yarn.lock
 # next.js
 /.next/
 /out/

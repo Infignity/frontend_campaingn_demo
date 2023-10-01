@@ -1,61 +1,69 @@
-// state.ts
-import { AnalysisProps } from '@/components/AnalysisPage';
 import { proxy } from 'valtio';
-
-
-// change from any define individual type
-export const store:any = proxy({
-  generatedEmails: [] as string[],
-  currentIndex: 0,
-  formData: {
-    first_name: '',
-  },
-  loading: false,
-  emailLoading: false,
-  fullName: '',
-  summary: '',
-  jobTitle: '',
-  emailData: {
-    first_name: '',
-    summary: '',
-    job_title: '',
-    company: '',
-  },
-});
-
-// AnalysisStoreProps.ts
 
 export type DetailsProp = {
   _id: number | string | any;
   _source: {
     full_name: string;
     job_title: string;
+    location_name: string;
     job_title_role: string;
     job_company_name: string;
   }
 };
 
+// TODO: properly define the props
 export type AnalysisStoreProps = {
   task_id: string;
-  analysis: [];
+  analysis: {
+    problemsIdentified: any;
+    solutionsOffered: any;
+    demographics: any;
+    behaviour: any;
+    motivation: any;
+    segmentation: any
+    marketSize: any
+    potential: any
+  };
+  filters: {
+    country: any;
+    job_title: any;
+    keyword: any;
+    reason: any;
+  }
   details: DetailsProp[];
   loading: boolean;
   selectedDetail: DetailsProp | null;
-  currentIndex: number,
-  detailloading: boolean,
-  emailLoading: boolean,
-  generatedEmails: any[]
+  currentIndex: number;
+  detailloading: boolean;
+  emailLoading: boolean;
+  generatedEmails: string[];
 };
 
+// state for the application
 export const analysisStore: AnalysisStoreProps = proxy({
   task_id: "",
-  analysis: [],
+  analysis: {
+    problemsIdentified: [],
+    solutionsOffered: [],
+    demographics: [],
+    behaviour: [],
+    motivation: [],
+    segmentation: [],
+    marketSize: [],
+    potential: [],
+  },
+  filters: {
+    country: [],
+    job_title: [],
+    keyword: [],
+    reason: [],
+  },
   loading: true,
   details: [],
   selectedDetail: null,
-  generatedEmails: [] as string[],
+  generatedEmails: [],
   currentIndex: 0,
   detailloading: false,
   emailLoading: false,
-  
 });
+

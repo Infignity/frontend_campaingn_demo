@@ -1,20 +1,20 @@
 "use client"
 
-import React, { useCallback, useEffect } from "react";
-import { useSnapshot } from "valtio";
-import { motion } from "framer-motion";
-import { PacmanLoader } from "react-spinners";
-import { Button } from "@/components/ui/button";
-import { ArrowRight, Send } from "lucide-react";
-import axios from "axios";
-import { scrapeUrl } from "@/utils/netwrok";
-import { useRouter } from "next/navigation";
-import { subscribe } from "valtio";
-import { analysisStore } from "@/lib/state";
-import { fadeInVariant } from "@/utils/motion";
-import { Card, CardContent, CardHeader } from "./ui/card";
-import { toast } from "react-toastify";
+import React, { useCallback, useEffect } from 'react'
+import { Card, CardContent } from './ui/card'
+import { MousePointerSquareDashed } from 'lucide-react'
+import SecondPageBar from './SecondPageBar'
+import { fadeInVariant } from '@/utils/motion'
+import { motion } from 'framer-motion'
+import { PacmanLoader } from 'react-spinners'
+import { subscribe, useSnapshot } from 'valtio'
+import { analysisStore } from '@/lib/state'
+import { useRouter } from 'next/navigation'
+import axios from 'axios'
+import { scrapeUrl } from '@/utils/netwrok'
+import { toast } from 'react-toastify'
 
+type Props = {}
 export type AnalysisProps = {
     title: string;
     content: string;
@@ -24,7 +24,14 @@ subscribe(analysisStore, () => {
     localStorage.setItem("appState", JSON.stringify(analysisStore));
 });
 
-const AnalysisPage = () => {
+
+function mapDataByKey(data: any, key: any) {
+    const dataByKey = data[key].map((item:any) => item);
+    return dataByKey.join('\n');
+  }
+  
+  
+const SecondPage = () => {
     const router = useRouter();
     const snapshot = useSnapshot(analysisStore);
 
@@ -40,10 +47,27 @@ const AnalysisPage = () => {
             if (data.status === "completed") {
                 const format_data = data.result.ai_analysis;
                 const users = data.result.matched_users;
+                console.log(format_data)
 
                 // const details = users.map((data: any) => {
                 //     return data["_source"]
-                // });
+                // }); 
+                const Problems = format_data["Problems Addressed"];
+                const Buyer = format_data["Buyer Persona"]
+                  // Call the function to map any key
+                const problemsIdentified = mapDataByKey(Problems, "Problems Identified");
+                const solutionsOffered = mapDataByKey(Problems, "Solutions Offered");
+                const demographics = mapDataByKey(Buyer, "Demographics");
+                const behaviour = mapDataByKey(Buyer, "Behavioral Traits");
+                const motivation = mapDataByKey(Buyer, "Motivations & Goals");
+
+  
+
+                  // You can now use the mapped data as variables
+                console.log("Problems Identified:", problemsIdentified);
+                console.log("Solutions Offered:", behaviour);
+                console.log("Demographics:", motivation);
+
 
                 const details = users.map((data: any) => {
                     return data
@@ -54,7 +78,12 @@ const AnalysisPage = () => {
                 analysisStore.details = details;
 
                 // Update Valtio analysisStore
-                analysisStore.analysis = format_data;
+                analysisStore.analysis.problemsIdentified = problemsIdentified;
+                analysisStore.analysis.solutionsOffered = solutionsOffered;
+                analysisStore.analysis.demographics = demographics;
+                analysisStore.analysis.behaviour = behaviour;
+                analysisStore.analysis.motivation = motivation;
+
                 analysisStore.loading = false;
 
             } else if (data.status === "pending") {
@@ -95,32 +124,20 @@ const AnalysisPage = () => {
         snapshot.details
     };
 
-
-
     return (
         <>
-            <div className="mt-10 w-full h-full flex justify-center items-center align-center">
-                <Card className="w-3/5 h-full shadow-md">
-                    <CardHeader>
-                        <motion.h1
-                            variants={fadeInVariant}
-                            initial="hidden"
-                            animate="visible"
-                            transition={{ duration: 0.5 }}
-                            className="text-3xl font-bold"
-                        >
-                            Analysis
-                        </motion.h1>
-                        <motion.p
-                            variants={fadeInVariant}
-                            initial="hidden"
-                            animate="visible"
-                            transition={{ duration: 0.5, delay: 0.2 }}
-                            className="text-gray-600"
-                        >
-                            ChatGpt Output
-                        </motion.p>
-                    </CardHeader>
+            <SecondPageBar />
+
+
+
+            <div className="mt-4"></div>
+            <div className='flex w-full font-inter  items-center overflow-auto gap-10 p-8'>
+                <Card className=' w-full bg-[#FAFAFA]  p-10 hover:bg-[#F2EFF8] '>
+                    <div >
+                        <p className='flex items-center font-semibold text-lg gap-3 w-full p-3'><span className='bg-[#E6DAFF] rounded-full p-2'><MousePointerSquareDashed className="text-[#5B0AE1]" size={20} /></span>Analysis</p>
+
+                    </div>
+
                     <CardContent>
 
                         {snapshot.loading ? (
@@ -138,15 +155,7 @@ const AnalysisPage = () => {
                             <>
 
                                 <div >
-                                    <motion.h3
-                                        variants={fadeInVariant}
-                                        initial="hidden"
-                                        animate="visible"
-                                        transition={{ duration: 0.5, delay: 0.6 * 0.2 }}
-                                        className="text-2xl font-semibold"
-                                    >
 
-                                    </motion.h3>
                                     <motion.pre
                                         variants={fadeInVariant}
                                         initial="hidden"
@@ -154,34 +163,21 @@ const AnalysisPage = () => {
                                         transition={{ duration: 0.5, delay: 0.8 * 0.2 }}
                                         className="text-gray-600 text-left"
                                     >
-                                        {snapshot.analysis}
+                                        <h2>Problems Addressed</h2>
+                                        
                                     </motion.pre>
                                 </div>
 
                             </>
                         )}
                     </CardContent>
+
                 </Card>
+
             </div>
-
-            <div className="w-100 mt-10 flex align-center justify-center gap-10">
-
-                <motion.div
-                    variants={fadeInVariant}
-                    initial="hidden"
-                    animate="visible"
-                    transition={{ duration: 0.5, delay: 0.4 }}
-                >
-                    {/* Button to regenerate analysis */}
-                    <Button onClick={handleRegenerate}>
-                        <p className="p-3">Next</p> <ArrowRight className="h-3 w-4 opacity-2" />
-                    </Button>
-                </motion.div>
-            </div>
-
-
+            
         </>
-    );
-};
+    )
+}
 
-export default AnalysisPage;
+export default SecondPage
