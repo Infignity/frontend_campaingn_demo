@@ -1,6 +1,5 @@
 
 import React from 'react'
-import { Separator } from './ui/separator'
 import { Button } from './ui/button'
 import { Bell, Plus } from 'lucide-react'
 

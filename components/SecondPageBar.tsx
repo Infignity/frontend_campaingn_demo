@@ -4,7 +4,6 @@ import { AlertOctagon, ChevronRight, MousePointerSquareDashed, ScanFace, Share2 
 import { Button } from './ui/button'
 import { Separator } from './ui/separator'
 import Link from 'next/link'
-import { useActivePath } from './hook/useActivePath'
 import { usePathname } from 'next/navigation'
 
 type Props = {}

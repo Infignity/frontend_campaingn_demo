@@ -6,7 +6,9 @@ type Props = {}
 
 const Buyer = (props: Props) => {
   return (
-    <><TargetMarket/></>
+    <>
+      <TargetMarket />
+    </>
   )
 }
 

@@ -2,9 +2,8 @@
 
 import React, { useCallback, useEffect } from 'react'
 import { Card, CardContent } from './ui/card'
-import { ChevronRight, MousePointerSquareDashed } from 'lucide-react'
+import { MousePointerSquareDashed } from 'lucide-react'
 import SecondPageBar from './SecondPageBar'
-import { Button } from './ui/button'
 import { fadeInVariant } from '@/utils/motion'
 import { motion } from 'framer-motion'
 import { PacmanLoader } from 'react-spinners'

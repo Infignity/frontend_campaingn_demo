@@ -1,7 +1,6 @@
 "use client"
 
 import React, { useState } from 'react';
-import NavBar from './NavBar';
 import Image from 'next/image';
 import homePage from "@/public/homePage.png";
 import { Input } from './ui/input';

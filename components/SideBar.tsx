@@ -1,4 +1,4 @@
-import { Circle, Bed, User, User2, Settings, Triangle, Bike, Rows, MailOpen, UserCog2 } from 'lucide-react'
+import { Triangle, Rows, MailOpen, UserCog2 } from 'lucide-react'
 import Link from 'next/link';
 import React from 'react'
 

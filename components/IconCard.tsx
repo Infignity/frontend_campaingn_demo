@@ -1,9 +1,8 @@
 import React from 'react'
 import { Card } from './ui/card'
-import { AtSign, Bed, Briefcase, Building2, Car, Globe2, User2, WholeWord, WholeWordIcon } from 'lucide-react'
+import { AtSign, Briefcase, Globe2} from 'lucide-react'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { getInitials } from '@/lib/utils';
-import { ReasonDialog } from './ReasonDialog';
 
 type Props = {
   active: any;
