@@ -18,7 +18,7 @@ export function ReasonDialog({ reasons }: { reasons: string[] | any }) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="ghost" className="w-30 h-15 rounded-full bg-violet-300 shadox-xl hover:bg-violet-600" size="lg"><Lightbulb className="w-10 h-10 " /></Button>
+        <Button variant="ghost" className="w-30 h-15 rounded-full bg-violet-700 shadox-xl hover:bg-violet-600" size="lg"><Lightbulb className="w-10 h-10 text-white" /></Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px] w-fit h-fit bg-violet-200 hover:bg-violet-300">
         <DialogHeader>

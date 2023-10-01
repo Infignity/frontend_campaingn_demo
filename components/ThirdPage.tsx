@@ -64,6 +64,8 @@ const ThirdPage = (props: Props) => {
         } else {
             // Handle case when no detail is selected
             console.error("No detail selected");
+            toast.error("No detail selected");
+
         }
     };
 

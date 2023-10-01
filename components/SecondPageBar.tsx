@@ -20,7 +20,7 @@ const NavigationItem = ({ href, icon, name }: NavigationItemProps) => {
   
     return (
         <Link href={href} className={isActive ? 'active' : ''}>
-        <Button className={`w-40 ${isActive ? 'bg-violet-700' : 'bg-zinc-100'} flex items-center justify-around font-light rounded-md p-2 ml-2 hover:text-black text-gray-900 hover:bg-[#F2EFF8]`}>
+        <Button className={`w-40 ${isActive ? 'bg-violet-300' : 'bg-zinc-100'} flex items-center justify-around font-light rounded-md p-2 ml-2 hover:text-black text-gray-900 hover:bg-[#F2EFF8]`}>
           {icon}
           <p className="font-inter text-base text-inherit font-light">{name}</p>
         </Button>
@@ -48,9 +48,9 @@ const SecondPageBar = (props: Props) => {
                 </div>
 
                 <div className="flex items-center gap-3">
-                    <Button className="w-10 bg-[#5B0AE1] flex items-center justify-center font-light  rounded-lg p-2 ml-2 hover:bg-zinc-100 text-gray-900"><Share2 className="w-4 h-4 text-gray-900" /></Button>
+                    <Button className="w-10 bg-violet-300 flex items-center justify-center font-light  rounded-lg p-2 ml-2 hover:bg-zinc-100 text-gray-900"><Share2 className="w-4 h-4 text-gray-900" /></Button>
                     <Link href="/stratergy">
-                        <Button className="w-35 bg-[#5B0AE1] flex items-center justify-around font-light  rounded-lg p-2 ml-2 hover:bg-[#F2EFF8] text-gray-900"><p className="font-inter text-base text-gray-900 ">Next</p><ChevronRight className="w-4 h-4 text-gray-900" /></Button>
+                        <Button className="w-35 bg-violet-300 flex items-center justify-around font-light  rounded-lg p-2 ml-2 hover:bg-[#F2EFF8] text-gray-900"><p className="font-inter text-base text-gray-900 ">Next</p><ChevronRight className="w-4 h-4 text-gray-900" /></Button>
                     </Link>
                 </div>
             </div>

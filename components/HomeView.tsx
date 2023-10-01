@@ -71,13 +71,9 @@ const HomeView = (props: Props) => {
             </h3>
 
 
-            <motion.form
+            <form
               onSubmit={handleFormSubmit}
-              variants={slideInVariant}
-              initial="hidden"
               className='w-full flex space-x-1'
-              animate="visible"
-              transition={{ duration: 0.5, delay: 0.2 }}
             >
               <Input type="text"
                 placeholder="Paste your Website URL"
@@ -86,14 +82,14 @@ const HomeView = (props: Props) => {
                 onChange={handleFormChange}
               />
               {
-                loading ? (  // Render the ClipLoader when loading
+                loading ? ( 
                   <div className="flex items-center justify-center">
                     <ClipLoader size={35} color={"#5B0AE1"} loading={loading} />
                   </div>
                 ) : (
-                  <Button type="submit" className="w-40 bg-[#5B0AE1] flex items-center justify-around font-light  rounded-md p-2 ml-2  hover:bg-[#F2EFF8]"><Wand2 className="w-4 h-4 text-gray-900 hover:text-gray-900" /><p className="font-inter text-base p-2 text-gray-900 font-light">Generate</p></Button>
+                  <Button type="submit" className="w-40 bg-[#5B0AE1] flex items-center justify-around font-light  rounded-md p-2 ml-5  hover:bg-violent-500"><Wand2 className="w-4 h-4 text-white" /><p className="font-inter text-base p-2 text-white font-light">Generate</p></Button>
                 )}
-            </ motion.form >
+            </ form >
 
 
           </div>
