@@ -64,7 +64,7 @@ const HomeView = (props: Props) => {
         <div className='flex w-full flex-col m-[15%] '>
           <div className="flex flex-col justify-center items-left text-left">
 
-            <h1 className="text-gray-900 font-semibold text-5xl font-inter">Company's Website</h1>
+            <h1 className="text-gray-900 font-semibold text-5xl font-inter">Company&apos;s Website</h1>
             <h3 className="text-gray-500 mt-4 mb-4 text-lg font-inter font-light">
               To help us better connect and understand your profile,<br />
               we kindly request that you provide your website URL and LinkedIn profile URL
