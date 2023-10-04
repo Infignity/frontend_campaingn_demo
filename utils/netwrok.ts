@@ -1,5 +1,7 @@
+const BASE_URL="https://zoominfosales.tech/"
 
-export const scrapeUrl = process.env.NEXT_PUBLIC_API_URL + "scrape"
-export const linkdenUrl = process.env.NEXT_PUBLIC_API_URL + "linkedin"
-export const generate = process.env.NEXT_PUBLIC_API_URL + "email_generator"
+
+export const scrapeUrl = BASE_URL + "scrape"
+export const linkdenUrl = BASE_URL + "linkedin"
+export const generate = BASE_URL + "email_generator"
 
