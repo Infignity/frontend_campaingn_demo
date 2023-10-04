@@ -38,7 +38,7 @@ export default function RootLayout({
           <SideBar />
           <div className="flex-grow flex flex-col overflow-hidden">
             <Header />
-            <Separator />
+            {/* <Separator /> */}
             
             <div className="flex-grow overflow-auto ml-20"> 
               {children}

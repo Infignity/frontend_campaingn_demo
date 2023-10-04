@@ -50,7 +50,7 @@ const HomeView = (props: Props) => {
       const taskID = res.data;
       state.task_id = taskID;
       localStorage.setItem("task_id", state.task_id);
-      router.push("/analysis");
+      // router.push("/analysis");
       console.log(res);
     } catch (error) {
       console.error(error);
