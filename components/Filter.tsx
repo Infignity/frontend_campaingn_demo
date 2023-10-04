@@ -1,6 +1,6 @@
 import React from 'react'
 import { ReasonDialog } from './ReasonDialog'
-import { Bell, Delete } from 'lucide-react'
+import { Bell, X, FilterX } from 'lucide-react'
 import { useSnapshot } from 'valtio'
 import { analysisStore } from '@/lib/state'
 
@@ -12,24 +12,22 @@ const Filter = (props: Props) => {
 
 
     return (
-        <div className="flex justify-center p-4">
-            <div className="w-1/2 ">
-               
-                <ul className="flex flex-wrap justify-center list-none">
+
+            <div className="flex justify-center">
+                <ul className="flex flex-wrap justify-center list-none text-sm">
                 {snapshot.filters.keyword?.map((item: string, index: any) => (
-                    <li key={index} className="w-fit h-10 p-2 m-3 flex items-center border rounded-lg bg-[#F9F9F9] hover:bg-[#F2EFF8]">
-                        <Bell className='w-6 h-6 mr-2' />
+                    <li key={index} className="w-fit h-10 p-2 m-1 flex items-center border rounded-lg bg-[#FEEBC8] hover:bg-yellow-300/30 font-bold text-[#7b341e] hover:cursor-pointer">
+                        <FilterX className='w-4 h-4 mr-2 text-[#7b341e]' />
                         <p className="flex-1">{item}</p>
-                        <Delete className='w-6 h-6 ml-2' />
+                        <X className='w-4 h-4 ml-2' />
                     </li>
                 ))}
                 </ul>
-
+                <div className="mx-10 flex justify-center">
+                    <ReasonDialog reasons={snapshot.filters.reason} />
+                </div>
             </div>
-            <div className="w-1/2 flex justify-center">
-                <ReasonDialog reasons={snapshot.filters.reason} />
-            </div>
-        </div>
+            
 
     )
 }

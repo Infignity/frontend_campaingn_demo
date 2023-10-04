@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, CardContent } from './ui/card';
 import { Dot, MousePointerSquareDashed } from 'lucide-react';
-import { PacmanLoader } from 'react-spinners';
+import { ScaleLoader } from 'react-spinners';
 
 
 type Props = {
@@ -26,13 +26,12 @@ const AnalysisCard = ({ headingText, text, loading }: Props) => {
           <CardContent>
             {loading ? (
               <div className="flex justify-between gap-10 align-center items-center">
-                <PacmanLoader
+                <ScaleLoader
                   color="#404c4a"
                   loading
-                  size={50}
                   className=""
                 />
-                <p className="text-gray-600">Loading...</p>
+                {/* <p className="text-gray-600">Loading...</p> */}
               </div>
             ) : (
               <ul className="list-none">

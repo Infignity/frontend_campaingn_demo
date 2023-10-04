@@ -35,12 +35,12 @@ export default function RootLayout({
           pauseOnHover
         />
         <div className="flex h-screen overflow-hidden bg-[#FFF]">
-          <SideBar />
+          {/* <SideBar /> */}
           <div className="flex-grow flex flex-col overflow-hidden">
             <Header />
             <Separator />
             
-            <div className="flex-grow overflow-auto ml-20"> 
+            <div className="flex-grow overflow-auto"> 
               {children}
             </div>
           </div>

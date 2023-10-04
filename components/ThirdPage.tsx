@@ -93,7 +93,7 @@ const ThirdPage = (props: Props) => {
             <div className="w-full flex flex-col lg:flex-row">
 
                 <div className="lg:w-1/2">
-                    <div className="flex flex-col">
+                    <div className="flex flex-col pt-5 ">
                         {snapshot.details.map((detail, index) => (
                             <Button
                                 key={index}

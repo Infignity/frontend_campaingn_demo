@@ -2,7 +2,7 @@ import React from 'react'
 import { Card, CardContent, CardTitle } from './ui/card'
 import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import { ClipLoader } from 'react-spinners'
+import { ClipLoader, HashLoader } from 'react-spinners'
 
 type Props = {
     generatedEmail: string;
@@ -14,26 +14,20 @@ type Props = {
 const MessageCard = ({ generatedEmail, prevEmail, nextEmail, loading }: Props) => {
     return (
         <div className="w-full h-full flex flex-col p-5 bg-[#F2EFF8]">
-            <h2 className="text-lg text-black font-semibold"> Generated Email</h2>
-            <div className="mt-10"></div>
-            <Card className="w-full p-10 border bg-[#F9F9F9] items-center">
-                <div className="relative border rounded-lg bg-[#F9F9F9]">
-                    <CardTitle className="absolute top-0 w-full bg-[#F2EFF8] rounded-t-lg border-b-2 h-50 ">
-                        <div className="h-8"></div>
-                    </CardTitle>
-
+            <h2 className="text-2xl text-black font-bold"> Generated Email</h2>
+            <div className="mt-5"></div>
+            <Card className="w-full p-6 border bg-[#F9F9F9] items-center text-lg">
                     <CardContent>
-                        <div className="mt-12">
+                        <div className="mt-5">
                             {loading ? (
                                 <div className="flex justify-center items-center">
-                                    <ClipLoader size={35} color={"#123abc"} loading={loading} />
+                                    <HashLoader size={35} color={"#123abc"} loading={loading} />
                                 </div>
                             ) : (
                                 <Markdown remarkPlugins={[remarkGfm]}>{generatedEmail}</Markdown>
                             )}
                         </div>
                     </CardContent>
-                </div>
             </Card>
         </div>
     )
