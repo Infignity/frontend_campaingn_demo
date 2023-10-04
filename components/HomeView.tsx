@@ -65,7 +65,7 @@ const HomeView = (props: Props) => {
           <div className="flex flex-col justify-center items-left text-left">
 
             <h1 className="text-gray-900 font-semibold text-5xl font-inter">Let&apos;s Stay Connected</h1>
-            <h3 className="text-gray-900 mt-4 mb-4 text-xl font-inter">
+            <h3 className="text-gray-500 mt-4 mb-4 text-lg font-inter font-light">
               To help us better connect and understand your profile,<br />
               we kindly request that you provide your website URL and LinkedIn profile URL
             </h3>
@@ -96,7 +96,7 @@ const HomeView = (props: Props) => {
 
         </div>
         <div className='flex flex-col justify-center items-center mr-[5%]'>
-          <Image src={homePage} alt="Home Page Image" width={500} height={300} />
+          <Image src="https://illustrations.popsy.co/violet/keynote-presentation.svg" alt="Home Page Image" width={1000} height={1000} />
 
         </div>
       </div>

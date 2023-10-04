@@ -9,7 +9,7 @@ Home.tsx
 .vscode/
 # testing
 /coverage
-
+.env
 /unused
 yarn.lock
 # next.js
