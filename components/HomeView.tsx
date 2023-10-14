@@ -13,7 +13,7 @@ import { scrapeUrl } from '@/utils/netwrok';
 import { motion } from 'framer-motion';
 import { slideInVariant } from '@/utils/motion';
 import { HashLoader } from 'react-spinners';
-
+import styles from './css/styles.module.css'
 
 type Props = {}
 
@@ -59,8 +59,11 @@ const HomeView = (props: Props) => {
     }
   };
   return (
-    <div>
-      <div className='flex w-full items-center'>
+    <div className={styles.container}>
+      <div className={`relative ${styles.hero}`}>
+
+
+        {/* <div className='flex w-full items-center' >
         <div className='flex w-full flex-col m-[15%] '>
           <div className="flex flex-col justify-center items-left text-left">
 
@@ -82,7 +85,7 @@ const HomeView = (props: Props) => {
                 onChange={handleFormChange}
               />
               {
-                loading ? ( 
+                loading ? (
                   <div className="flex items-center justify-center">
                     <HashLoader size={35} color={"#5B0AE1"} loading={loading} />
                   </div>
@@ -99,9 +102,70 @@ const HomeView = (props: Props) => {
           <Image src="https://illustrations.popsy.co/violet/keynote-presentation.svg" alt="Home Page Image" width={1500} height={1500} />
 
         </div>
-      </div>
+      </div> */}
 
+      {/* Home Page Code With Email images - Digvijay Kadam */}
+        <div className="flex justify-center  items-center gap-20 m-8 scroll-my-10">
+          <div className="p-6">
+            <div className=' flex  flex-col '>
+              <a href="" className='text-[#5B0AE1]  py-3'>Learn More about &rarr;</a>
+              <h1 className="text-4xl font-bold mb-4 py-2">Company&apos;s Website</h1>
+              <p className="text-lg text-gray-700 mb-4 py-2">To help us better connect and understand your profile,<br />
+                we kindly request that you provide your website URL and LinkedIn profile URL</p>
+              <form
+                onSubmit={handleFormSubmit}
+                className='w-medium flex space-x-1 w-100'
+              >
+                <Input type="text"
+                  placeholder="https://magicpitch.ai"
+                  name="website_url"
+                  value={formData.website_url}
+                  onChange={handleFormChange}
+                  className='px-4 py-7 '
+                />
+                {
+                  loading ? (
+                    <div className="flex items-center justify-center ">
+                      <HashLoader size={35} color={"#5B0AE1"} loading={loading} />
+                    </div>
+                  ) : (
+                    <Button type="submit" className="w-40 bg-[#5B0AE1] flex items-center justify-around font-light  rounded-md px-4 py-7  ml-5  hover:bg-violent-500"><Wand2 className="w-4 h-4 text-white" /><p className="font-inter text-base p-2 text-white font-light">Submit</p></Button>
+                  )}
+              </ form >
+            </div>
+
+          </div>
+          <div className={styles.image}>
+            <Image
+              src="https://www.magicpitch.ai/images/gmail_4.svg"
+              alt="Home Page Image"
+              width={160}
+              height={50}
+              style={{
+                boxShadow: '0px 5px 15px rgba(91, 10, 225, 0.35)',
+                borderRadius: '10px',
+              }}
+            />
+          </div>
+
+
+        </div>
+        <div className="flex justify-center flex-col items-center overflow-hidden ">
+          <Image
+            src="https://www.magicpitch.ai/images/gmail_1.svg"
+            alt="Home Page Image"
+            width={700}
+            height={250}
+            className='border-b-4'
+          />
+  
+        </div>
+        <hr />
+      </div>
+              <hr />
+      <p className='text-center text-gray py-6'><a href="">Terms & conditions</a>  |  <a href="">Policies</a></p>
     </div>
+
 
 
   )
